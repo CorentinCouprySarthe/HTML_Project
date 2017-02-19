@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>BiduleTroc</title>
+		<link href="style.css" rel="stylesheet" type ="text/css" media="screen"/>
+    </head>
+    <body>
+
+	<div id="principal">
+		<div id="title">
+			<h1>BIDULETROC</h1>
+		</div>
+		<div class="column">
+				<ul>
+				<li> <h3>Recherche</h3> </li>
+				<li> Catégorie <select name="Categorie" id="Categorie">
+									<option value="Meuble">Meuble</option>
+									<option value="Ustensile">Ustensile</option>
+									<option value="Livres">Livres</option>
+									<option value="Jeux">Jeux Vidéos/DVD/CD</option>
+									<option value="Vetements">Vetements</option>
+									<option value="Divers">Divers</option>
+									<option value="Hitech">Hi-tech</option>
+									<option value="Outils">Outils</option>
+									<option value="Sports">Sports</option>
+								</select> </li>
+				<li> Mot clef <input type="text" name="RechercheMot" id="RechercheMot" /> </li>
+				</ul>
+		</div>
+		<div id="menu">
+		  <ul id="onglets">
+		    <li class="active"><a href="Accueil.html"> Objets déposés </a></li>
+		    <li><a href="Forums.html"> Object recherchés </a></li>
+		  </ul>
+		</div>
+	</div>
+		
+
+		<div id="Connection">
+		<form name="login" method="post" action="validate.php">
+			Pseudo :<input type="text" name="user_name"><br>
+			Login :<input type="password" name="password"><br>
+			<input type="submit" value="Se connecter">
+			<a href="CreerCompte.html">Créer un compte
+		</form>
+		</div>
+    </body>
+</html>
+
+<?php
+
+//Petite fonction permetant de ne pas executer de fonctions php, js,... lors de l'enregistrement. 
+
+function format_value($value) { 
+$value = mysql_escape_string($value); 
+return "'$value'"; 
+} 
+
+//Vérification des champs (remplis ou non) 
+
+if (!$_REQUEST["user_name"] || !$_REQUEST["password"]) { echo "Tous les champs n'ont pas été remplis."; } 
+else { 
+$username = format_value($_REQUEST["user_name"]); 
+$password = format_value($_REQUEST["password"]); 
+
+//Connexion à la base de donnée. 
+$host = ''; 
+$name = ''; 
+$user = ''; 
+$pwd = ''; 
+$db = mysql_pconnect($host, $user, $pwd); 
+mysql_select_db($name); 
+
+//A la limite, rend le mot de pass "crypté" avec le sha1 par exemple 
+
+$password=sha1($password); 
+
+//Ajout 
+$query = "INSERT INTO users(user,password) Values($username,$password)"; 
+$res = mysql_query($query, $db); 
+
+echo 'Ajout effectué.'; 
+
+} 
+?>

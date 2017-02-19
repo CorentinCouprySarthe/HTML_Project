@@ -1,0 +1,62 @@
+#Connection {
+	border: 5px solid black;
+	top: 0px;
+	right: 0px;
+	position: absolute;
+}
+
+.column {
+    position: fixed;
+    border: 1px solid red;
+}
+
+
+#onglets
+{
+    font : bold 11px Batang, arial, serif;
+    list-style-type : none;
+    padding-bottom : 24px;
+    border-bottom : 1px solid #9EA0A1;
+    margin-left : 280px;
+	margin-top : 100px;
+}
+
+#principal
+{
+    position:relative;
+
+}
+
+#menu
+{
+    position:absolute;
+    right: 0;
+}
+
+#onglets li
+{
+    float : left;
+    height : 21px;
+    background-color: #F4F9FD;
+    margin : 2px 2px 0 2px; 
+    margin : 1px 2px 0 2px; 	
+    border : 1px solid #9EA0A1;
+}
+
+#onglets li.active
+{
+    border-bottom: 1px solid #fff;
+    background-color: #fff;
+}
+
+#onglets a
+{
+    display : block;
+    color : #666;
+    text-decoration : none;
+    padding : 4px;
+}
+#onglets a:hover
+{
+    background : #fff;
+}
