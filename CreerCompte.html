@@ -1,60 +1,144 @@
 <!DOCTYPE html>
-
 <html>
+  <head> 
+    <title>Site de troc</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
 
-    <head>
+    <style>
+	.col1 {
+		display: flex;
+		width:180px;
+		justify-content:flex-end;
+	}
+	.col2 {
+		display: flex;
+		width:180px;
+		justify-content:flex-start;
+	}
+	.colbut {
+		display: flex;
+		width:180px;
+		justify-content:center;
+	}
+	
+	.container {
+		display: -webkit-flex;
+		display: flex;
+		flex-direction:row;
+		align-items: baseline;
+		background-color: lightgrey;
+		width:400px;
+		margin-left: 100px
+	}
+	
+    html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+    }
+    </style>
 
-        <meta charset="utf-8" />
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
-        <title>Création de compte</title>
+	<script>
+    $(document).ready(function() {
 
-    </head>
-    <body>
-			<h1> Création du compte </h1>
-			
-			<form name="nouveaumembre" method="post" action="newcount.php">
-			Nom d'utilisateur:<input type="text" name="user_name"><br>
-			Mot de passe:<input type="password" name="password"><br>
-			<input type="submit" value="Envoyer">
-			</form>
-    
+      /* Etape 1: Code JS */
 
-    </body>
+      $("#button_create").click(function() {
+		localStorage.setItem('id', document.getElementById("name_input"));
+		localStorage.setItem('mdp', document.getElementById("mdp_input"));
+		localStorage.setItem('mail', document.getElementById("mail_input"));
+		localStorage.setItem('date', document.getElementById("date_input"));
+		localStorage.setItem('tel', document.getElementById("tel_input"));
+		localStorage.setItem('adr', document.getElementById("adr_input"));
+		localStorage.setItem('ville', document.getElementById("ville_input"));
+		localStorage.setItem('pays', document.getElementById("pays_input"));
+		
+		
+      });
+	  </script>
+  </head>
 
+
+<body>
+
+
+<h2>  Biduletroc </h2>
+<div class="container">
+	<div class="col1">
+      <p><label for="name">Nom : </label></p>
+    </div>
+    <div class="col2">
+      <p><input type="text" id="name" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="mdp">Mot de passe : </label></p>
+    </div>
+    <div class="col2">
+      <p><input type="text" id="mdp" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="mail">E-mail : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="email" id="mail" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="date">Date de naissance : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="date" id="date" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="tel">Numéro de téléphone : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="tel" id="tel" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="adr">Adresse : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="text" id="adr" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+      <p><label for="ville">Ville : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="text" id="ville" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="pays">Pays : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="text" id="pays" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="colbut">
+		<button id="button_create">Créer</button>
+    </div>
+    <div class="colbut">
+		<button id="button_return">Retour</button>
+    </div>
+</div>
+
+</body>
 </html>
-<?php
-
-//Petite fonction permetant de ne pas executer de fonctions php, js,... lors de l'enregistrement. 
-
-function format_value($value) { 
-$value = mysql_escape_string($value); 
-return "'$value'"; 
-} 
-
-//Vérification des champs (remplis ou non) 
-
-if (!$_REQUEST["user_name"] || !$_REQUEST["password"]) { echo "Tous les champs n'ont pas été remplis."; } 
-else { 
-$username = format_value($_REQUEST["user_name"]); 
-$password = format_value($_REQUEST["password"]); 
-
-//Connexion à la base de donnée. 
-$host = ''; 
-$name = ''; 
-$user = ''; 
-$pwd = ''; 
-$db = mysql_pconnect($host, $user, $pwd); 
-mysql_select_db($name); 
-
-//A la limite, rend le mot de pass "crypté" avec le sha1 par exemple 
-
-$password=sha1($password); 
-
-//Ajout 
-$query = "INSERT INTO users(user,password) Values($username,$password)"; 
-$res = mysql_query($query, $db); 
-
-echo 'Ajout effectué.'; 
-
-} 
-?>
