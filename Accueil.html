@@ -12,21 +12,22 @@
 			<h1>BIDULETROC</h1>
 		</div>
 		<div class="column">
-				<ul>
-				<li> <h3>Recherche</h3> </li>
-				<li> Catégorie <select name="Categorie" id="Categorie">
-									<option value="Meuble">Meuble</option>
-									<option value="Ustensile">Ustensile</option>
-									<option value="Livres">Livres</option>
-									<option value="Jeux">Jeux Vidéos/DVD/CD</option>
-									<option value="Vetements">Vetements</option>
-									<option value="Divers">Divers</option>
-									<option value="Hitech">Hi-tech</option>
-									<option value="Outils">Outils</option>
-									<option value="Sports">Sports</option>
-								</select> </li>
-				<li> Mot clef <input type="text" name="RechercheMot" id="RechercheMot" /> </li>
-				</ul>
+			<h3>Recherche</h3>
+			<form name="search" method="post" action="search.php">
+				Catégorie : <select name="Categorie" id="Categorie">
+								<option value="Meubles">Meubles</option>
+								<option value="Ustensiles">Ustensiles</option>
+								<option value="Livres">Livres</option>
+								<option value="Jeux">Jeux Vidéos/DVD/CD</option>
+								<option value="Vetements">Vetements</option>
+								<option value="Divers">Divers</option>
+								<option value="Hitech">Hi-Tech</option>
+								<option value="Outils">Outils</option>
+								<option value="Sports">Sports</option>
+							</select><br>
+				Mot clef : <input type="text" name="RechercheMot" id="RechercheMot" /> <br>
+				<input type="submit" name="recherche" value="Rechercher">
+			</form>
 		</div>
 		<div id="menu">
 		  <ul id="onglets">
@@ -83,4 +84,19 @@ $res = mysql_query($query, $db);
 echo 'Ajout effectué.'; 
 
 } 
+
+//Recherche
+//on recherche selon la catégorie (à affiner selon les mots-clés)
+$requete = "SELECT nom, catégorie FROM objets WHERE catégorie = 'categorie'";
+//on envoie la requete à la base et on affiche un message d'erreur si nécessaire
+$req = mysql_query($requete) or die('Erreur SQL !<br>'.$requete.'<br>'.mysql_error());
+//on affiche le résultat
+while($data = mysql_fetch_assoc($req)) 
+	{ 
+		// on affiche les informations de l'enregistrement en cours 
+		echo $data['nom'] . " - " . $data['cqtégorie'] .  "\n";
+	} 
+
+//on ferme la connexion à la base de données
+mysql_close();
 ?>
