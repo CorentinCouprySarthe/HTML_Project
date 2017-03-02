@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head> 
-    <title>Site de troc</title>
+    <title>Création du compte</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
 
@@ -66,13 +66,14 @@
 <body>
 
 
-<h2>  Biduletroc </h2>
+<h2>  Création du compte </h2>
+<form name="nouveaumembre" method="post" action="newcount.php">
 <div class="container">
 	<div class="col1">
       <p><label for="name">Nom : </label></p>
     </div>
     <div class="col2">
-      <p><input type="text" id="name" /></p>
+      <p><input type="text" id="name" name="user_name" /></p>
     </div>
 </div>
 <div class="container">
@@ -80,7 +81,7 @@
 	  <p><label for="mdp">Mot de passe : </label></p>
     </div>
     <div class="col2">
-      <p><input type="text" id="mdp" /></p>
+      <p><input type="text" id="mdp"  name="password" /></p>
     </div>
 </div>
 <div class="container">
@@ -133,12 +134,48 @@
 </div>
 <div class="container">
 	<div class="colbut">
-		<button id="button_create">Créer</button>
+		<input type="submit" value="Envoyer">
     </div>
     <div class="colbut">
-		<button id="button_return">Retour</button>
+		<input type="submit" value="Retour">
     </div>
 </div>
-
+</form>
 </body>
 </html>
+<?php
+
+//Petite fonction permetant de ne pas executer de fonctions php, js,... lors de l'enregistrement. 
+
+function format_value($value) { 
+$value = mysql_escape_string($value); 
+return "'$value'"; 
+} 
+
+//Vérification des champs (remplis ou non) 
+
+if (!$_REQUEST["user_name"] || !$_REQUEST["password"]) { echo "Tous les champs n'ont pas été remplis."; } 
+else { 
+$username = format_value($_REQUEST["user_name"]); 
+$password = format_value($_REQUEST["password"]); 
+
+//Connexion à la base de donnée. 
+$host = ''; 
+$name = ''; 
+$user = ''; 
+$pwd = ''; 
+$db = mysql_pconnect($host, $user, $pwd); 
+mysql_select_db($name); 
+
+//A la limite, rend le mot de pass "crypté" avec le sha1 par exemple 
+
+$password=sha1($password); 
+
+//Ajout 
+$query = "INSERT INTO users(user,password) Values($username,$password)"; 
+$res = mysql_query($query, $db); 
+
+echo 'Ajout effectué.'; 
+
+} 
+?>
