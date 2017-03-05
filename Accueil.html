@@ -1,102 +1,258 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <title>BiduleTroc</title>
-		<link href="style.css" rel="stylesheet" type ="text/css" media="screen"/>
-    </head>
-    <body>
 
-	<div id="principal">
-		<div id="title">
-			<h1>BIDULETROC</h1>
-		</div>
-		<div class="column">
-			<h3>Recherche</h3>
-			<form name="search" method="post" action="search.php">
-				Catégorie : <select name="Categorie" id="Categorie">
-								<option value="Meubles">Meubles</option>
-								<option value="Ustensiles">Ustensiles</option>
-								<option value="Livres">Livres</option>
-								<option value="Jeux">Jeux Vidéos/DVD/CD</option>
-								<option value="Vetements">Vetements</option>
-								<option value="Divers">Divers</option>
-								<option value="Hitech">Hi-Tech</option>
-								<option value="Outils">Outils</option>
-								<option value="Sports">Sports</option>
-							</select><br>
-				Mot clef : <input type="text" name="RechercheMot" id="RechercheMot" /> <br>
-				<input type="submit" name="recherche" value="Rechercher">
-			</form>
-		</div>
-		<div id="menu">
-		  <ul id="onglets">
-		    <li class="active"><a href="Accueil.html"> Objets déposés </a></li>
-		    <li><a href="Forums.html"> Object recherchés </a></li>
-		  </ul>
-		</div>
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>BiduleTroc</title>
+
+<meta property="og:title" content="BiduleTroc - Troc gratuit" />
+<meta property="og:image" content="icone.jpg" />
+
+<meta name="msvalidate.01" content="07BADBCCE42619A71976432A2FC1CA84" />
+<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/js_engine.js"></script>
+
+</head>
+<body>
+
+
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+	<script>
+		$(document).ready(function() {
+			// Show or hide the sticky footer button
+			$(window).scroll(function() {
+				if ($(this).scrollTop() > 200) {
+					$('.go-top').fadeIn(200);
+				} else {
+					$('.go-top').fadeOut(200);
+				}
+			});
+			
+			// Animate the scroll to top
+			$('.go-top').click(function(event) {
+				event.preventDefault();
+				
+				$('html, body').animate({scrollTop: 0}, 300);
+			})
+		});
+		
+		//InfoBulle
+	
+		function infobulle(element, text){
+			var is_ie = ((navigator.userAgent.toLowerCase().indexOf("msie") != -1) && (navigator.userAgent.toLowerCase().indexOf("opera") == -1));
+			
+			//Suppression du title de l'élément pour éviter une superposition
+			element.title = '';
+			
+			//Création d'une div provisoire
+			var infobulle = document.createElement('div');
+			infobulle.innerHTML = text;
+			infobulle.id = 'infobulle';
+			infobulle.style.display = 'none';
+			infobulle.style.opacity = '0';
+			infobulle.style.filter = 'alpha(opacity=0)';
+			document.body.appendChild(infobulle);
+			
+			infobulle.style.position = 'absolute';
+			document.onmousemove = function(e){
+				x = (!is_ie ? e.pageX : event.x+document.documentElement.scrollLeft)+10;
+				y = (!is_ie ? e.pageY : event.y+document.documentElement.scrollTop)+10;
+				
+				var windowWidth = (!is_ie ? window.innerWidth : document.documentElement.clientWidth);
+				var windowHeight = (!is_ie ? window.innerHeight : document.documentElement.clientHeight);
+				var scrollLeft = document.documentElement.scrollLeft;
+				var scrollTop = document.documentElement.scrollTop;
+				
+				//Calcul des dimensions de l'infobulle
+				infobulle.style.display = '';
+				var infoWidth = infobulle.offsetWidth;
+				var infoHeight = infobulle.offsetHeight;
+				infobulle.style.display = 'none';
+				
+				/*On vérifie que l'infobulle ne sorte pas de la fenêtre*/
+				if((x+infoWidth) > (windowWidth+scrollLeft)){
+					x = (!is_ie ? e.pageX : event.x+document.documentElement.scrollLeft)-infoWidth-5;
+				}
+				if((y+infoHeight) > (windowHeight+scrollTop)){
+					y = (!is_ie ? e.pageY : event.y+document.documentElement.scrollTop)-infoHeight-5;
+				}
+				
+				infobulle.style.left = x+'px';
+				infobulle.style.top = y+'px';
+				infobulle.style.display = '';
+			}
+		
+			for(i=0; i<=100; i+=10){
+				var time = ((i/20)*30);
+				setTimeout('opacity('+i+', \'infobulle\');', time);
+			}
+		
+		
+			//Ajout de la fermeture lorsque la souris quitte l'élément
+			element.onmouseout = function(){
+				for(i=0; i<=100; i+=10){
+					var time = ((i/20)*30);
+					var opacity = (100-i);
+					setTimeout('opacity('+opacity+', \'infobulle\', 1);', time);
+				}
+			};
+			
+			//Fonction servant à faire varier l'opacité
+			opacity = function(opacity, id, close){
+					var infobulle = document.getElementById(id);
+					infobulle.style.opacity = (opacity/100);
+					infobulle.style.filter = 'alpha(opacity='+opacity+')';
+					if(opacity == 0 && close){
+						document.body.removeChild(infobulle); //Suppression de la div provisoire
+						document.onmousemove = '';
+					}
+			}
+		}
+	</script> 
+    
+<a href="#" class="go-top">▲</a>	
+
+<div id="page" align="center">
+		<div id="bloc-principal">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" class="header_zone1" style="height:37px">
+    <div class="header_new">
+    <div class="zone_logo">           
+    <img src="icone.jpg" class="picto_logo" alt="BiduleTroc" title="BiduleTroc">
+       
+       </a>
+    </div>
+   <nav class="nav_header_new">
+   <ul class="nav_header">
+   <li><a class="nav_header_acceuil" href="Acceuil.html" target="_top"><img class="img_puce_nav" src="icone_acceuil.gif" alt="Acceuil" title="Acceuil">Acceuil</a></li>
+   <li><a class="nav_header_depot" href="Annonce.html" target="_top"><img class="img_puce_nav" src="annonce.gif" title="Déposer une annonce" alt="Déposer une annonce">Déposer une annonce</a></li>
+   </ul>
+   </nav>
+       </div>
+    
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" class="header_hp_zone2"><div class="header_hp_zone2_content">
+    <div class="header_zone2_titre"><h1 class="header_zone2_titre">BiduleTroc 100% Gratuit !</h1>
 	</div>
+	
+  </tr align="left" valign="left" class="header_hp_zone2">
+  <td align="left" valign="left" class="header_hp_zone2">
+	<h2>Menu</h2>
+	<div class="column">
+				<ul>
+				<li> Catégorie <select name="Categorie" id="Categorie">
+									<option value="Meuble">Meuble</option>
+									<option value="Ustensile">Ustensile</option>
+									<option value="Livres">Livres</option>
+									<option value="Jeux">Jeux Vidéos/DVD/CD</option>
+									<option value="Vetements">Vetements</option>
+									<option value="Divers">Divers</option>
+									<option value="Hitech">Hi-tech</option>
+									<option value="Outils">Outils</option>
+									<option value="Sports">Sports</option>
+								</select> </li>
+				<li> Mot clef <input type="text" name="RechercheMot" id="RechercheMot" /> </li>
+				<li> Référence <input type="text" name="id" id="Rechercheid" /> </li>
+				</ul>
+		</div>
+
+	</td>
+  <tr>
+    <td align="center" valign="top" class="zone_centre">  <div class="zone_centre_div">
+      <div class="zone_centre_grid_gauche">
+	  
+<table class="offre">
+  <thead>
+    <tr>
+      <th>Entête 1</th>
+      <th>Entête 2</th>
+      <th  data-tri="1" class="selection" data-type="num">Entête 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>...</td><td>...</td><td>...</td></tr>
+    ...
+  </tbody>
+</table>
+
+
 		
 
-		<div id="Connection">
-		<form name="login" method="post" action="validate.php">
-			Pseudo :<input type="text" name="user_name"><br>
-			Login :<input type="password" name="password"><br>
-			<input type="submit" value="Se connecter">
-			<a href="CreerCompte.html">Créer un compte
-		</form>
-		</div>
-    </body>
+
+<aside style="margin-bottom: 15px;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- HomePage - 250x250 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:250px;height: 250px;"
+     data-ad-client="ca-pub-9919069933602168"
+     data-ad-slot="3257408736"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</aside>
+<aside  style="margin-bottom: 15px;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- HomePage - 250x250 - Txt -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:250px;height:250px"
+     data-ad-client="ca-pub-9919069933602168"
+     data-ad-slot="9345497132"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></aside>
+
+
+</div>
+     
+
+
+<!-- modification affichage banner cookie --><script type="text/javascript" charset="utf-8">
+function readCookie(name) {
+var nameEQ = name + "=";
+var ca = document.cookie.split(';');
+for(var i=0;i < ca.length;i++) {
+var c = ca[i];
+while (c.charAt(0)==' ') c = c.substring(1,c.length);
+if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+}
+return null;
+}
+
+
+function createCookie() {
+var date = new Date();
+date.setTime(date.getTime()+(3600*24*31*6*1000));
+var expires = "; expires="+date.toGMTString();
+document.cookie = "CUSTOMER_APPROVAL_COOKIE"+"="+"TRUE"+expires+"; path=/";
+var cookieBanner = document.getElementById("cookieBanner");
+cookieBanner.style.visibility = 'hidden';
+}
+$( document ).ready(function() {
+var cookieBanner = document.getElementById("cookieBanner");
+cookieBanner.style.visibility = 'hidden';
+var customerCookieBanner = readCookie("CUSTOMER_APPROVAL_COOKIE");
+if(customerCookieBanner==null || customerCookieBanner==""){
+var cookieBanner = document.getElementById("cookieBanner");
+cookieBanner.style.visibility = 'visible';
+}
+});
+</script>
+
+<div class="i_looked_frame" id="cookieBanner" style="position: fixed; bottom: 0px; width: 100%; background: rgba(0, 0, 0, 0.8);"><center>
+<p class="" style="color: #DDDDDD; text-align: center; font-family: arial; font-size: 13px; padding: 7px; ">
+</div>
+
+<!-- modification affichage banner cookie -->
+</body>
 </html>
-
-<?php
-
-//Petite fonction permetant de ne pas executer de fonctions php, js,... lors de l'enregistrement. 
-
-function format_value($value) { 
-$value = mysql_escape_string($value); 
-return "'$value'"; 
-} 
-
-//Vérification des champs (remplis ou non) 
-
-if (!$_REQUEST["user_name"] || !$_REQUEST["password"]) { echo "Tous les champs n'ont pas été remplis."; } 
-else { 
-$username = format_value($_REQUEST["user_name"]); 
-$password = format_value($_REQUEST["password"]); 
-
-//Connexion à la base de donnée. 
-$host = ''; 
-$name = ''; 
-$user = ''; 
-$pwd = ''; 
-$db = mysql_pconnect($host, $user, $pwd); 
-mysql_select_db($name); 
-
-//A la limite, rend le mot de pass "crypté" avec le sha1 par exemple 
-
-$password=sha1($password); 
-
-//Ajout 
-$query = "INSERT INTO users(user,password) Values($username,$password)"; 
-$res = mysql_query($query, $db); 
-
-echo 'Ajout effectué.'; 
-
-} 
-
-//Recherche
-//on recherche selon la catégorie (à affiner selon les mots-clés)
-$requete = "SELECT nom, catégorie FROM objets WHERE catégorie = 'categorie'";
-//on envoie la requete à la base et on affiche un message d'erreur si nécessaire
-$req = mysql_query($requete) or die('Erreur SQL !<br>'.$requete.'<br>'.mysql_error());
-//on affiche le résultat
-while($data = mysql_fetch_assoc($req)) 
-	{ 
-		// on affiche les informations de l'enregistrement en cours 
-		echo $data['nom'] . " - " . $data['cqtégorie'] .  "\n";
-	} 
-
-//on ferme la connexion à la base de données
-mysql_close();
-?>

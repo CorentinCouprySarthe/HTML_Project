@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <title>Création d'une annonce</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <style>
+	.col1 {
+		display: flex;
+		width:180px;
+		justify-content:flex-end;
+	}
+	.col2 {
+		display: flex;
+		width:180px;
+		justify-content:flex-start;
+	}
+	.colbut {
+		display: flex;
+		width:180px;
+		justify-content:center;
+	}
+	
+	.container {
+		display: -webkit-flex;
+		display: flex;
+		flex-direction:row;
+		align-items: baseline;
+		background-color: lightgrey;
+		width:500px;
+		margin-left: 100px
+	}
+	
+    html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+    }
+    </style>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+  </head>
+
+
+<body>
+
+
+<h2>  Création d'une annonce</h2>
+<form name="nouveaumembre" method="post" action="Annonce.html">
+<div class="container">
+	<div class="col1">
+      <p><label for="name">Nom de l'annonce: </label></p>
+    </div>
+    <div class="col2">
+      <p><input type="text" id="name" name="name" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+      <p><label for="Img">Photo : </label></p>
+    </div>
+    <div class="col2">
+      <p><input type="file" id="img" name="name" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+  <p><label for="Catégorie">Catégorie: </label></p>
+    </div>
+    <div class="col2">
+	  <p><select name="Categorie" id="Categorie">
+									<option value="Meuble">Meuble</option>
+									<option value="Ustensile">Ustensile</option>
+									<option value="Livres">Livres</option>
+									<option value="Jeux">Jeux Vidéos/DVD/CD</option>
+									<option value="Vetements">Vetements</option>
+									<option value="Divers">Divers</option>
+									<option value="Hitech">Hi-tech</option>
+									<option value="Outils">Outils</option>
+									<option value="Sports">Sports</option>
+								</select></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="tel">Numéro de téléphone : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="tel" id="tel" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+	  <p><label for="CP">Code Postal : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="text" id="CP" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+      <p><label for="ville">Ville : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="text" id="ville" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+      <p><label for="ref">Référence annonce : </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="text" id="ref" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+      <p><label for="Objrech">Objet Recherché: </label></p>
+    </div>
+    <div class="col2">
+	  <p><input type="text" id="Objrech" /></p>
+    </div>
+</div>
+<div class="container">
+	<div class="col1">
+      <p><label for="Description">Description: </label></p>
+    </div>
+    <div class="col2">
+	  <p><textarea name="Description" id="Description" cols="20" rows="4"></textarea></p>
+    </div>
+</div>
+<div class="container">
+	<div class="colbut">
+		<input type="submit" id="envoyer" value="Envoyer">
+    </div>
+    <div class="colbut">
+		<input type="button" type="submit" href="Acceuil.html" value="Retour">
+    </div>
+</div>
+</form>
+</body>
+</html>
+<script>
+// Détection du support
+if(typeof LocalStorage!='undefined') {
+$("#envoyer").click(function() {
+		localStorage.setItem('name', document.getElementById("name"));
+		localStorage.setItem('Categorie', document.getElementById("Categorie"));
+		localStorage.setItem('tel', document.getElementById("tel"));
+		localStorage.setItem('CP', document.getElementById("CP"));
+		localStorage.setItem('ville', document.getElementById("ville"));
+		localStorage.setItem('ref', document.getElementById("ref"));
+		localStorage.setItem('Objrech', document.getElementById("Objrech"));
+		localStorage.setItem('Descrption', document.getElementById("Descrption"));
+		
+		
+      });
+} else {
+  alert("LocalStorage n'est pas supporté");
+}
+</script>
