@@ -1,4 +1,6 @@
 @charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Oxygen:400,700);
+@import url(https://fonts.googleapis.com/css?family=Pacifico);
 /* CSS Document */
 
 body {
@@ -19,29 +21,10 @@ div#infobulle{
 	-webkit-border-radius: 0px 6px 6px 6px;
 	-moz-border-radius: 0px 6px 6px 6px;
 }
-#menu
-{
-    position:absolute;
-    right: 0px;
-}
 
-#onglets li
-{
-    float : right;
-    height : 30px;
-	width : 30px;
-    background-color: #F4F9FD;
-    margin : 5px 5px 0 5px; 
-    margin : 5px 5px 0 5x; 	
-    border : 1px solid #9EA0A1;
+#contourmap img {
+	border: none; 
 }
-
-#onglets li.active
-{
-    border-bottom: 1px solid #fff;
-    background-color: #fff;
-}
-
 /* header */
 #global {
 			display: block;
@@ -2718,7 +2701,9 @@ color: #444;
 }
 
 .nav_header_new {
-	width: 50%;
+	width: 70%;
+	height: 25px;
+		margin-left: 30%;	
 }
 
 .picto_logo {

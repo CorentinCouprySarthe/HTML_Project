@@ -1,90 +1,271 @@
+
+<!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>BiduleTroc</title>
-		<link href="style.css" rel="stylesheet" type ="text/css" media="screen"/>
-    </head>
-    <body>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>BiduleTroc</title>
 
-	<div id="principal">
-		<div id="title">
-			<h1>BIDULETROC</h1>
-		</div>
-		<div class="column">
-				<ul>
-				<li> <h3>Recherche</h3> </li>
-				<li> Catégorie <select name="Categorie" id="Categorie">
-									<option value="Meuble">Meuble</option>
-									<option value="Ustensile">Ustensile</option>
-									<option value="Livres">Livres</option>
-									<option value="Jeux">Jeux Vidéos/DVD/CD</option>
-									<option value="Vetements">Vetements</option>
-									<option value="Divers">Divers</option>
-									<option value="Hitech">Hi-tech</option>
-									<option value="Outils">Outils</option>
-									<option value="Sports">Sports</option>
-								</select> </li>
-				<li> Mot clef <input type="text" name="RechercheMot" id="RechercheMot" /> </li>
-				</ul>
-		</div>
-		<div id="menu">
-		  <ul id="onglets">
-		    <li class="active"><a href="Accueil.html"> Objets déposés </a></li>
-		    <li><a href="Forums.html"> Object recherchés </a></li>
-		  </ul>
-		</div>
-	</div>
+<meta property="og:title" content="BiduleTroc - Troc gratuit" />
+<meta property="og:image" content="img/icone.jpg" />
+
+<meta name="msvalidate.01" content="07BADBCCE42619A71976432A2FC1CA84" />
+<link rel="stylesheet" href="stylesheet.css" type="text/css" />
+<link rel="SHORTCUT ICON" href="images/all/favicon.ico" />
+<link rel="apple-touch-icon" href="images/picto_apple/touch-icon-iphone.png" />
+<link rel="apple-touch-icon" sizes="72x72" href="images/picto_apple/touch-icon-ipad.png" />
+<link rel="apple-touch-icon" sizes="114x114" href="images/picto_apple/touch-icon-iphone4.png" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/js_engine.js"></script>
+
+</head>
+<body>
+
+
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+	<script>
+		$(document).ready(function() {
+			// Show or hide the sticky footer button
+			$(window).scroll(function() {
+				if ($(this).scrollTop() > 200) {
+					$('.go-top').fadeIn(200);
+				} else {
+					$('.go-top').fadeOut(200);
+				}
+			});
+			
+			// Animate the scroll to top
+			$('.go-top').click(function(event) {
+				event.preventDefault();
+				
+				$('html, body').animate({scrollTop: 0}, 300);
+			})
+		});
 		
-
-		<div id="Connection">
+		//InfoBulle
+	
+		function infobulle(element, text){
+			var is_ie = ((navigator.userAgent.toLowerCase().indexOf("msie") != -1) && (navigator.userAgent.toLowerCase().indexOf("opera") == -1));
+			
+			//Suppression du title de l'élément pour éviter une superposition
+			element.title = '';
+			
+			//Création d'une div provisoire
+			var infobulle = document.createElement('div');
+			infobulle.innerHTML = text;
+			infobulle.id = 'infobulle';
+			infobulle.style.display = 'none';
+			infobulle.style.opacity = '0';
+			infobulle.style.filter = 'alpha(opacity=0)';
+			document.body.appendChild(infobulle);
+			
+			infobulle.style.position = 'absolute';
+			document.onmousemove = function(e){
+				x = (!is_ie ? e.pageX : event.x+document.documentElement.scrollLeft)+10;
+				y = (!is_ie ? e.pageY : event.y+document.documentElement.scrollTop)+10;
+				
+				var windowWidth = (!is_ie ? window.innerWidth : document.documentElement.clientWidth);
+				var windowHeight = (!is_ie ? window.innerHeight : document.documentElement.clientHeight);
+				var scrollLeft = document.documentElement.scrollLeft;
+				var scrollTop = document.documentElement.scrollTop;
+				
+				//Calcul des dimensions de l'infobulle
+				infobulle.style.display = '';
+				var infoWidth = infobulle.offsetWidth;
+				var infoHeight = infobulle.offsetHeight;
+				infobulle.style.display = 'none';
+				
+				/*On vérifie que l'infobulle ne sorte pas de la fenêtre*/
+				if((x+infoWidth) > (windowWidth+scrollLeft)){
+					x = (!is_ie ? e.pageX : event.x+document.documentElement.scrollLeft)-infoWidth-5;
+				}
+				if((y+infoHeight) > (windowHeight+scrollTop)){
+					y = (!is_ie ? e.pageY : event.y+document.documentElement.scrollTop)-infoHeight-5;
+				}
+				
+				infobulle.style.left = x+'px';
+				infobulle.style.top = y+'px';
+				infobulle.style.display = '';
+			}
 		
-		<form action="index.php" method="post">
-		Login : <input type="text" name="login" value="<?php if (isset($_POST['login'])) echo htmlentities(trim($_POST['login'])); ?>"><br />
-		Mot de passe : <input type="password" name="pass" value="<?php if (isset($_POST['pass'])) echo htmlentities(trim($_POST['pass'])); ?>"><br />
-		</form>
-		<a href="inscription.php">Vous inscrire</a>
-					<?php
-					if (isset($erreur)) echo '<br /><br />',$erreur;
-					?> 
+			for(i=0; i<=100; i+=10){
+				var time = ((i/20)*30);
+				setTimeout('opacity('+i+', \'infobulle\');', time);
+			}
 		
-		</div>
-    </body>
-</html>
+		
+			//Ajout de la fermeture lorsque la souris quitte l'élément
+			element.onmouseout = function(){
+				for(i=0; i<=100; i+=10){
+					var time = ((i/20)*30);
+					var opacity = (100-i);
+					setTimeout('opacity('+opacity+', \'infobulle\', 1);', time);
+				}
+			};
+			
+			//Fonction servant à faire varier l'opacité
+			opacity = function(opacity, id, close){
+					var infobulle = document.getElementById(id);
+					infobulle.style.opacity = (opacity/100);
+					infobulle.style.filter = 'alpha(opacity='+opacity+')';
+					if(opacity == 0 && close){
+						document.body.removeChild(infobulle); //Suppression de la div provisoire
+						document.onmousemove = '';
+					}
+			}
+		}
+	</script> 
+    
+<a href="#" class="go-top">▲</a>	
+<link href="https://plus.google.com/113988666131512194904/" rel="publisher" />	
+<div id="page" align="center">
+		<div id="bloc-principal">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<a href="formulaire_de_depot.php?id_reg=10" class="go-top">> DÉPOSER UNE ANNONCE</a>
+  <tr>
+    <td align="center" class="header_zone1" style="height:37px">
+    <div class="header_new">
+    <div class="zone_logo">
+       <a href="./" target="_top" style="text-decoration: none; color: #67A500;">
+           
+    <img src="/img/icone.jpg" class="picto_logo" alt="BiduleTroc" title="BiduleTroc" ><h1 class="header_zone2_titre_page" style="font-size: 14px; text-align: left; width: auto;margin-top: 20px;color: #67A500;Line-Height: 3px;"><span class="" style="font-weight:bold;font-size: 22px;"><span style="color: #F45000;">BIDULE</span><span style="color: #00ACF2;"> TROC</span></span></span><BR><span style="color: #5D5D5F;"> Site de troc Etudiant</span></h1>     
+       
+       </a>
+    </div>
+    
+   <nav class="nav_header_new">
+   <ul class="nav_header">
+   <li style="color: #00B1F5; font-weight: 700;"><img class="img_puce_nav" src="icone_acceuil.gif" title=" Accueil" alt="Accueil">Accueil</li>
+   
+   <li><a class="nav_header_offres" href="offres.php" target="_top"><img class="img_puce_nav" src="icone_offres.gif" title="Offres" alt="Offres">Offres</a></li>
+   
+   <li><a class="nav_header_depot" href="formulaire_de_depot.php?id_reg=10" target="_top"><img class="img_puce_nav" src="icone_annonce.gif" title="Déposer une annonce" alt="Déposer une annonce">Déposer une annonce</a></li>
+   
+   <li><a class="nav_header_mes_annonces"  href="mes_echanges.php?id_reg=10" target="_top"><img class="img_puce_nav" src="icone_trocs_en_ligne.gif" alt="Mes trocs en ligne">Mes trocs en ligne</a></li>
+   </ul>
+   </nav>
+       </div>
+    
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" class="header_hp_zone2"><div class="header_hp_zone2_content">
+    <div class="header_zone2_titre"><h1 class="header_zone2_titre">BiduleTroc 100% Gratuit !</h1></div>
+  </tr>
+  <tr>
+    <td align="center" valign="top" class="zone_centre">  <div class="zone_centre_div">
+      <div class="zone_centre_grid_gauche">
 
-<?php
-// on teste si le visiteur a soumis le formulaire de connexion
-if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
-	if ((isset($_POST['login']) && !empty($_POST['login'])) && (isset($_POST['pass']) && !empty($_POST['pass']))) {
+<!-- fin encart deopt -->
 
-	$base = mysql_connect ('serveur', 'login', 'password');
-	mysql_select_db ('nom_base', $base);
+<aside style="margin-bottom: 15px;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- HomePage - 250x250 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:250px;height: 250px;"
+     data-ad-client="ca-pub-9919069933602168"
+     data-ad-slot="3257408736"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</aside>
+<aside  style="margin-bottom: 15px;">
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- HomePage - 250x250 - Txt -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:250px;height:250px"
+     data-ad-client="ca-pub-9919069933602168"
+     data-ad-slot="9345497132"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script></aside>
 
-	// on teste si une entrée de la base contient ce couple login / pass
-	$sql = 'SELECT count(*) FROM membre WHERE login="'.mysql_escape_string($_POST['login']).'" AND pass_md5="'.mysql_escape_string(md5($_POST['pass'])).'"';
-	$req = mysql_query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.mysql_error());
-	$data = mysql_fetch_array($req);
+<!-- fin tête de gondole -->
+<!-- tête de gondole --><!-- fin tête de gondole -->
 
-	mysql_free_result($req);
-	mysql_close();
 
-	// si on obtient une réponse, alors l'utilisateur est un membre
-	if ($data[0] == 1) {
-		session_start();
-		$_SESSION['login'] = $_POST['login'];
-		header('Location: membre.php');
-		exit();
-	}
-	// si on ne trouve aucune réponse, le visiteur s'est trompé soit dans son login, soit dans son mot de passe
-	elseif ($data[0] == 0) {
-		$erreur = 'Compte non reconnu.';
-	}
-	// sinon, alors la, il y a un gros problème :)
-	else {
-		$erreur = 'Probème dans la base de données : plusieurs membres ont les mêmes identifiants de connexion.';
-	}
-	}
-	else {
-	$erreur = 'Au moins un des champs est vide.';
-	}
+
+</div>
+      <div id="contourmap" class="zone_centre_grid_droite">
+        <img src="carte_france.gif" width="582" height="581" usemap="#Map" border="0" alt="BiduleTroc" /><br />
+      </div>
+      
+      </div>
+      <div class="zone_centre_div">
+    </div>
+        <tr>
+    <td ><!-- zone footer -->
+
+
+<!-- modification affichage banner cookie --><script type="text/javascript" charset="utf-8">
+function readCookie(name) {
+var nameEQ = name + "=";
+var ca = document.cookie.split(';');
+for(var i=0;i < ca.length;i++) {
+var c = ca[i];
+while (c.charAt(0)==' ') c = c.substring(1,c.length);
+if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
 }
-?>
+return null;
+}
+
+
+function createCookie() {
+var date = new Date();
+date.setTime(date.getTime()+(3600*24*31*6*1000));
+var expires = "; expires="+date.toGMTString();
+document.cookie = "CUSTOMER_APPROVAL_COOKIE"+"="+"TRUE"+expires+"; path=/";
+var cookieBanner = document.getElementById("cookieBanner");
+cookieBanner.style.visibility = 'hidden';
+}
+$( document ).ready(function() {
+var cookieBanner = document.getElementById("cookieBanner");
+cookieBanner.style.visibility = 'hidden';
+var customerCookieBanner = readCookie("CUSTOMER_APPROVAL_COOKIE");
+if(customerCookieBanner==null || customerCookieBanner==""){
+var cookieBanner = document.getElementById("cookieBanner");
+cookieBanner.style.visibility = 'visible';
+}
+});
+</script>
+
+
+<map name="Map" id="Map">
+  <area shape="poly" coords="283,53,287,52,284,48,282,31,288,27,316,19,321,23,321,29,321,33,326,35,329,39,332,41,337,38,343,37,346,41,346,45,348,49,351,53,355,53,360,55,362,60,364,64,367,63,370,63,375,64,379,64,383,69,382,73,385,76,383,81,377,82,366,79,362,80,359,78,357,81,345,82,341,78,334,81,332,77,330,79,327,74,326,76,315,73,317,68,304,70,294,61,286,60,282,57,282,52" href="/research/Nord-Pas-de-Calais" alt=" BiduleTroc - Nord-Pas-de-Calais" title="BiduleTroc - Nord-Pas-de-Calais"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc:<br/>Nord-Pas-de-Calais');" />
+  <area shape="poly" coords="282,64,286,63,292,64,295,65,297,68,303,72,314,70,311,74,315,79,317,76,333,82,341,81,344,83,362,82,367,81,386,86,386,92,385,95,383,100,379,104,378,121,373,119,364,125,366,134,361,136,362,140,364,144,357,152,346,145,345,139,340,137,332,140,330,137,327,140,321,140,310,132,308,134,300,133,293,133,286,131,290,129,287,120,287,103,290,98,287,89,275,79,280,72,284,73,281,64" href="/research/Picardie" alt="BiduleTroc - Picardie" title="BiduleTroc - Picardie"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Picardie');" />
+  <area shape="poly" coords="274,82,285,91,287,97,283,102,285,111,284,117,287,126,283,129,280,139,275,140,274,144,275,148,270,153,270,157,265,158,261,156,257,160,251,161,247,162,247,159,240,150,234,150,233,141,231,130,234,125,230,124,230,119,233,116,222,112,227,101,240,93,263,88,274,81" href="/research/Haute-Normandie" alt="BiduleTroc - Haute-Normandie" title="BiduleTroc - Haute-Normandie"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Haute-Normandie');" />
+  <area shape="poly" coords="227,120,230,137,230,142,231,146,231,152,238,152,244,160,244,163,248,164,248,170,252,172,252,180,245,186,245,192,242,188,238,189,232,185,231,177,227,174,214,180,208,171,204,170,203,172,194,173,188,175,186,173,184,175,180,172,172,171,166,169,158,173,154,166,160,165,161,160,157,159,152,151,154,138,155,126,145,118,143,109,145,105,144,99,152,103,159,100,166,100,163,109,171,122,176,120,184,122,198,123,207,127,217,125,226,119" href="/research/Basse-Normandie" alt="BiduleTroc - Basse-Normandie" title="BiduleTroc - Basse-Normandie"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Basse-Normandie');"/>
+  <area shape="poly" coords="166,171,159,176,155,175,151,165,138,165,138,160,137,169,133,169,130,164,124,166,118,163,105,171,103,168,98,164,99,160,93,153,87,154,87,149,83,147,75,150,72,150,70,156,65,158,60,155,58,159,53,159,52,154,39,157,35,156,32,159,31,161,24,161,21,165,20,170,27,171,38,168,40,173,47,180,46,182,36,179,35,180,39,184,39,189,37,191,22,190,31,194,36,201,35,205,39,206,41,203,43,194,45,201,51,201,56,208,58,204,63,207,63,210,67,206,69,209,70,213,73,208,75,211,79,212,77,215,80,217,84,216,82,221,84,223,88,222,90,220,93,220,99,222,102,224,100,228,102,230,109,229,114,233,124,227,126,222,130,220,142,219,146,216,155,213,161,215,165,206,169,203,168,186,169,182,169,173,166,171" href="/research/Bretagne" alt="BiduleTroc- Bretagne" title="BiduleTroc - Bretagne"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Bretagne');" />
+  <area shape="poly" coords="172,173,173,185,170,188,172,203,167,208,162,218,155,216,146,219,145,222,133,222,127,225,127,230,112,236,108,240,110,243,114,245,117,246,120,243,128,243,131,245,125,248,123,250,123,253,130,262,123,270,123,274,143,299,158,307,164,306,172,302,172,306,179,307,186,304,185,295,180,278,173,266,186,266,191,260,206,259,207,262,215,256,222,228,228,230,228,228,231,227,238,224,239,220,242,219,249,208,247,204,247,202,249,198,245,195,242,192,239,191,236,192,231,187,228,177,217,183,213,183,210,180,209,177,206,173,201,175,194,176,187,179,186,177,183,178,178,174,174,174" href="/research/Pdl" alt="BiduleTroc - Pays de la Loire" title="BiduleTroc - Pays de la Loire"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Pays de la Loire');"/>
+  <area shape="poly" coords="286,134,283,141,278,142,277,144,282,154,283,165,288,170,291,178,294,177,298,187,304,187,307,183,308,186,312,185,314,187,316,189,320,195,319,197,324,198,334,196,338,192,339,185,354,182,354,173,360,168,354,159,356,154,344,144,343,140,338,140,335,142,333,142,330,142,327,143,322,143,310,135,308,137,298,135,292,136,285,134" href="/research/IDF" alt="BiduleTroc - Ile de France" title="BiduleTroc - Ile de France"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Ile de France');"/>
+  <area shape="poly" coords="390,86,397,88,406,82,411,74,410,82,411,86,414,88,412,93,412,95,415,95,419,95,424,101,429,102,431,106,431,107,423,105,423,108,423,113,423,117,420,122,420,125,418,127,417,130,418,134,418,137,418,139,418,141,421,144,419,148,417,148,416,151,415,154,419,158,419,162,420,164,421,166,423,168,438,178,438,181,450,190,449,198,453,203,454,204,454,207,456,207,458,207,455,212,451,212,451,215,450,223,446,222,435,229,432,225,424,224,422,220,423,217,423,214,420,212,418,209,416,207,414,206,414,203,410,202,407,203,405,203,403,205,399,206,396,207,394,206,389,208,382,208,378,209,369,194,358,181,356,175,362,169,356,159,367,143,364,138,368,136,366,126,374,122,379,123,381,106,389,98,388,94,389,85" href="/research/Champagne-Ardenne" alt="BiduleTroc - Champagne-Ardenne" title="BiduleTroc- Champagne-Ardenne"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Champagne-Ardenne');" />
+  <area shape="poly" coords="424,108,425,117,422,122,422,126,419,128,421,141,422,146,420,149,418,151,418,155,421,159,421,162,422,166,441,179,441,182,451,189,452,194,451,198,455,203,459,206,465,202,473,206,479,204,484,208,490,205,498,212,501,209,500,204,510,182,505,179,506,170,503,166,508,167,511,166,513,153,510,151,507,152,504,153,502,149,499,146,504,134,500,129,497,128,495,132,491,132,482,121,480,115,468,113,463,116,458,116,454,112,452,111,448,111,446,111,441,112,440,114,438,114,434,107,429,110,424,108" href="/research/Lorraine" alt="BiduleTroc - Lorraine" title="BiduleTroc - Lorraine"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Lorraine');"/>
+  <area shape="poly" coords="506,132,506,136,505,138,502,144,503,146,506,149,505,151,509,149,514,151,516,153,512,167,509,169,508,177,513,182,503,203,502,209,502,212,507,215,507,224,519,233,524,232,525,227,528,222,525,218,528,202,527,191,533,177,534,162,545,149,548,139,542,137,526,135,518,129,512,132,505,131" href="/research/Alsace" alt="BiduleTroc - France - Alsace" title="BiduleTroc - France - Alsace"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Alsace');"/>
+  <area shape="poly" coords="276,152,280,154,280,157,281,167,288,173,287,176,291,179,293,180,295,190,305,189,310,188,313,189,317,195,313,200,325,200,334,198,342,205,342,210,339,213,338,214,338,217,338,218,335,222,333,223,336,232,333,234,332,237,334,242,333,247,336,252,339,260,339,265,342,267,341,279,335,280,331,284,327,285,323,286,322,288,321,289,321,290,321,296,311,297,310,302,301,303,287,301,284,303,274,305,272,306,268,305,265,306,263,305,263,301,258,296,254,295,252,292,252,288,252,286,243,274,243,269,234,265,235,269,228,269,224,264,224,262,222,260,219,259,217,256,222,243,223,231,230,233,231,231,234,231,240,226,242,222,244,222,249,210,250,204,250,202,250,200,250,197,249,195,248,188,255,182,254,172,252,169,250,167,250,165,253,162,259,162,263,160,265,160,270,161,272,157,275,152" href="/research/Centre" alt="BiduleTroc- Centre" title="BiduleTroc - Centre"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Centre');"/>
+  <area shape="poly" coords="341,186,341,190,340,193,338,196,338,197,344,205,345,209,343,212,340,215,340,219,336,223,339,233,335,235,337,241,337,246,335,249,340,258,341,264,344,266,342,280,347,286,354,286,357,285,359,288,367,282,374,296,381,299,384,301,383,304,381,307,381,310,381,311,379,312,379,314,380,316,384,317,391,316,393,319,398,314,398,311,402,310,406,309,410,310,415,316,420,296,427,297,434,297,439,300,440,292,441,288,440,282,437,279,442,275,434,270,434,263,441,256,444,247,440,239,436,238,442,234,441,229,433,233,433,228,421,226,418,219,419,214,416,211,413,209,411,206,407,205,401,208,395,210,390,211,377,211,370,200,367,196,357,184,340,185" href="/research/Bourgogne" alt="BiduleTroc - Bourgogne" title="BiduleTroc - Bourgogne"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Bourgogne');"/>
+  <area shape="poly" coords="466,204,460,208,458,213,457,213,453,214,452,217,453,222,452,224,449,225,445,224,443,227,443,228,444,231,444,234,442,236,441,239,446,246,445,250,444,254,443,258,438,262,436,266,436,269,444,273,443,277,441,278,444,287,443,292,441,295,442,300,440,302,444,306,446,308,450,307,451,305,455,306,456,310,465,306,469,300,473,288,484,277,484,267,495,259,504,248,505,243,502,240,504,234,506,232,509,230,506,227,505,219,499,214,497,215,489,208,485,210,479,206,473,208,467,205" href="/research/Franche-Comté" alt="BiduleTroc - Franche-Comté" title="BiduleTroc - Franche-Comté"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Franche-Comté');"/>
+  <area shape="poly" coords="177,268,181,276,183,280,186,293,187,301,190,304,179,309,174,308,167,308,164,312,162,315,166,325,165,329,165,333,158,342,161,346,179,362,179,367,185,366,186,370,191,371,193,377,198,383,208,382,211,375,215,375,220,370,220,364,229,357,239,343,243,342,249,332,245,327,245,318,247,312,251,310,255,308,259,307,260,304,258,299,255,298,252,297,251,292,250,287,239,271,227,271,224,268,222,265,219,261,214,259,208,265,205,262,192,262,187,267,177,268" href="/research/Poitou-Charentes" alt="BiduleTroc- Poitou-Charentes" title="BiduleTroc - Poitou-Charentes"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Poitou-Charentes');"/>
+  <area shape="poly" coords="262,307,249,315,246,319,248,327,251,330,252,334,248,335,244,344,240,345,241,348,244,349,245,354,253,353,260,359,261,361,269,368,266,373,265,378,268,383,270,384,272,388,281,389,286,394,292,392,300,392,300,389,303,384,304,381,304,379,311,370,312,365,318,367,316,354,318,351,315,345,312,342,321,332,319,325,319,320,315,314,309,309,308,304,300,307,289,304,285,307,276,307,271,310,263,307" href="/research/Limousin" alt="BiduleTroc - Limousin" title="BiduleTroc - Limousin"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Limousin');"/>
+  <area shape="poly" coords="338,282,333,285,330,287,325,287,322,291,323,292,323,297,322,299,317,299,313,300,312,302,311,306,313,309,316,311,318,312,320,317,321,323,322,328,324,333,316,341,319,346,321,352,318,354,320,369,316,369,307,379,307,381,307,385,304,387,302,392,301,397,305,403,303,409,304,414,309,413,314,412,316,413,320,411,324,399,328,394,334,397,335,400,337,403,338,407,339,411,345,395,347,398,356,393,359,395,360,397,361,400,364,400,366,400,368,398,378,405,385,399,390,398,394,392,396,391,398,386,402,381,403,375,398,376,397,369,393,368,384,372,381,370,378,370,380,362,378,359,377,354,369,342,371,337,367,333,374,329,373,314,377,311,379,308,379,305,377,301,373,299,366,286,360,290,355,288,345,289,338,282" href="/research/Auvergne" alt="BiduleTroc - Auvergne" title="BiduleTroc - Auvergne"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc:<br/>Auvergne');"/>
+  <area shape="poly" coords="424,299,416,321,410,312,404,314,399,313,399,317,393,320,390,320,386,320,384,320,376,315,376,330,372,335,373,338,372,342,375,349,379,353,383,362,381,366,385,369,392,366,400,368,401,373,405,373,405,383,403,384,400,387,398,390,398,394,396,394,393,397,391,399,387,401,380,407,387,429,390,431,393,433,396,434,403,430,403,431,405,431,412,434,413,431,419,431,423,436,431,432,434,433,436,431,438,437,448,437,448,441,453,442,456,438,459,438,458,435,450,429,447,425,451,420,456,420,454,415,456,410,462,409,464,404,484,395,486,395,486,390,479,384,482,380,491,381,519,369,517,365,520,361,513,357,511,347,507,345,503,342,502,338,512,327,501,316,502,310,500,305,500,302,492,302,489,304,486,307,484,307,482,307,482,311,483,313,475,320,466,320,465,314,470,308,472,306,471,304,465,308,461,312,456,312,453,309,451,311,448,313,445,313,444,309,442,309,439,305,436,301,431,299,423,298" href="/research/Rhone" alt="BiduleTroc- Rhône-Alpes" title="BiduleTroc - Rhône-Alpes"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Rhône-Alpes');"/>
+  <area shape="poly" coords="238,348,233,354,232,357,230,359,222,365,222,370,218,376,211,377,207,384,198,385,190,380,190,375,181,369,176,376,173,369,162,358,156,401,164,407,162,411,157,411,154,413,143,470,131,487,132,490,138,491,143,492,143,496,144,501,145,503,148,504,149,506,161,513,169,513,174,518,178,523,181,523,184,523,188,521,189,521,191,513,193,510,196,509,197,505,201,500,199,496,204,493,204,492,204,488,202,486,203,481,201,479,194,478,192,475,195,464,195,457,207,453,207,456,210,452,214,451,219,450,223,451,228,448,238,449,247,437,246,432,252,429,251,421,264,407,269,400,270,389,267,384,264,384,262,378,262,372,266,369,252,355,243,355,242,350,238,348" href="/research/Aquitaine" alt="BiduleTroc - Aquitaine" title="BiduleTroc - Aquitaine"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Aquitaine');"/>
+  <area shape="poly" coords="273,393,279,391,287,397,291,395,295,394,298,395,299,401,302,405,301,410,304,416,309,414,317,415,322,409,325,400,328,397,332,400,338,413,343,419,345,428,344,437,355,443,350,447,358,452,349,463,342,462,343,469,337,471,330,475,323,472,324,484,322,489,305,487,305,490,300,489,296,487,294,489,290,488,282,497,283,505,291,507,293,513,293,516,292,517,293,520,294,522,290,524,291,530,293,532,296,532,298,532,299,534,295,535,292,537,287,539,276,535,270,535,265,530,260,531,255,527,238,521,234,524,234,529,233,531,226,531,218,531,214,530,204,531,193,522,192,515,195,512,198,511,198,507,202,502,204,498,207,494,206,485,202,477,196,476,195,474,198,464,199,458,205,456,206,458,210,457,211,455,215,454,217,453,223,453,228,450,237,451,251,437,248,433,255,431,254,421,266,409,267,405,270,402,272,393" href="/research/Midi-Pyrénées" alt="BiduleTroc - Midi-Pyrénées" title="BiduleTroc - Midi-Pyrénées"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Midi-Pyrénées');"/>
+  <area shape="poly" coords="347,400,342,412,347,424,349,432,348,436,360,443,356,447,361,451,351,464,345,465,345,471,338,474,331,478,327,477,327,486,321,490,308,489,305,493,297,491,291,491,284,498,285,502,292,506,296,512,296,517,294,520,296,522,292,525,294,528,297,530,300,530,305,537,296,537,294,541,288,543,287,545,292,547,296,550,297,554,303,551,304,550,309,550,312,550,319,551,322,555,327,553,327,550,330,550,334,549,338,547,344,546,343,516,348,505,353,499,357,497,361,497,364,496,378,483,388,480,391,479,394,484,408,470,412,470,412,462,421,452,416,447,416,440,408,434,403,436,401,434,397,437,387,431,378,414,377,408,368,400,367,404,360,402,357,395,347,399" href="/research/Languedoc-Roussillon" alt="BiduleTroc - Languedoc-Roussillon" title="BiduleTroc - Languedoc-Roussillon"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Languedoc-Roussillon');"/>
+  <area shape="poly" coords="515,433" href="#" alt="" />
+  <area shape="poly" coords="484,382,484,385,486,389,488,391,489,395,488,399,483,398,472,401,470,405,465,405,465,411,460,412,456,416,459,419,458,422,455,423,451,423,451,425,451,428,460,433,461,438,458,441,453,444,445,441,445,439,438,439,436,434,429,434,423,438,419,433,415,433,417,438,418,445,425,452,416,460,413,473,410,473,407,476,408,478,404,480,400,483,412,485,416,492,422,490,424,486,428,486,433,491,447,489,450,497,460,501,462,499,470,505,477,503,483,505,485,502,490,503,495,501,498,500,502,497,505,496,506,494,504,492,509,482,515,481,519,475,524,472,526,467,541,460,542,452,549,442,546,437,534,442,524,436,518,435,513,426,513,420,509,415,512,411,514,405,518,402,515,397,509,397,504,393,503,388,499,382,495,382,491,385,486,383" href="/research/Provence-Alpes-Côte" alt="BiduleTroc - Provence-Alpes-Côte d'Azur" title="BiduleTroc - Provence-Alpes-Côte d'Azur"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Provence-Alpes-Côte d Azur');"/>
+  <area shape="poly" coords="555,480,559,481,560,495,563,507,562,525,556,532,554,557,547,565,540,559,533,559,533,555,530,551,535,546,526,544,529,537,525,536,528,529,524,527,522,520,525,518,525,512,532,500,540,499,548,495,551,496,553,480" href="/research/Corse" alt="BiduleTroc - Corse" title="BiduleTroc - Corse"  target="_top" onMouseOver="infobulle(this, 'BiduleTroc :<br/>Corse');"/>
+</map>
+
+<div class="i_looked_frame" id="cookieBanner" style="position: fixed; bottom: 0px; width: 100%; background: rgba(0, 0, 0, 0.8);"><center>
+<p class="" style="color: #DDDDDD; text-align: center; font-family: arial; font-size: 13px; padding: 7px; ">
+</div>
+
+<!-- modification affichage banner cookie -->
+</body>
+</html>
